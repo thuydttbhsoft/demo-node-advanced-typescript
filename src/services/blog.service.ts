@@ -1,4 +1,3 @@
-
 import { FilterQuery, QueryOptions } from 'mongoose';
 
 import blogModel, { Blog } from '../models/blog.model';
@@ -11,15 +10,19 @@ export const createBlog = async (input: Blog) => {
 };
 
 // UpdateBlog service
-export const updateBlog = async (id: string, input: {title: string, description: string}) => {
+export const updateBlog = async (
+  id: string,
+  input: { title: string; description: string },
+) => {
   const blog = await blogModel.findOneAndUpdate(
-    { _id:id},
+    { _id: id },
     {
       $set: {
-        ...input
+        ...input,
       },
-    });
-    return blog;
+    },
+  );
+  return blog;
 };
 
 // Find Blog by Id
@@ -36,12 +39,12 @@ export const findAllBlogs = async () => {
 // Find one Blog by any fields
 export const findBlog = async (
   query: FilterQuery<Blog>,
-  options: QueryOptions = {}
+  options: QueryOptions = {},
 ) => {
   return await blogModel.findOne(query, {}, options);
 };
 
 // delete Blogs
 export const deleteBlog = async (id: string) => {
-  return await blogModel.deleteOne({ _id: id});
+  return await blogModel.deleteOne({ _id: id });
 };

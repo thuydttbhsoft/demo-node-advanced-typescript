@@ -1,6 +1,12 @@
 import express from 'express';
 import { deserializeUser } from '../middlewares/auth.middleware';
-import { getBlogsHandler, getMyBlogHandler, createBlogHandler, UpdateBlogHandler, deleteBlogHandler } from '../controllers/blog.controller';
+import {
+  getBlogsHandler,
+  getMyBlogHandler,
+  createBlogHandler,
+  UpdateBlogHandler,
+  deleteBlogHandler,
+} from '../controllers/blog.controller';
 import { validate } from '../middlewares/joi.middleware';
 import BlogValidate from '../utils/validators/blog';
 

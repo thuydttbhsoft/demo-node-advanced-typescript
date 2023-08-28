@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const BlogValidate = {
   body: Joi.object({
@@ -7,9 +7,4 @@ const BlogValidate = {
   }),
 };
 
-// module.exports = {
-//     UserValidate,
-// };
-export default BlogValidate
-
-// export type User = Joi.extractType<typeof user>;
+export default BlogValidate;

@@ -7,7 +7,7 @@ import { verifyToken } from '../utils/helpers/jwt.helper';
 export const deserializeUser = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     // Get the token
@@ -30,14 +30,22 @@ export const deserializeUser = async (
     const user = verifyToken(access_token);
 
     if (!user) {
-        return AppError(`Invalid token or user doesn't exist`, statusCode.NOT_AUTHORIZE, res);
+      return AppError(
+        `Invalid token or user doesn't exist`,
+        statusCode.NOT_AUTHORIZE,
+        res,
+      );
     }
 
     // Check if user still exist
     const userLogin = await findUserById(user._id);
 
     if (!userLogin) {
-        return AppError(`User with that token no longer exist`, statusCode.NOT_AUTHORIZE, res);
+      return AppError(
+        `User with that token no longer exist`,
+        statusCode.NOT_AUTHORIZE,
+        res,
+      );
     }
 
     // This is really important (Helps us know if the user is logged in from other controllers)

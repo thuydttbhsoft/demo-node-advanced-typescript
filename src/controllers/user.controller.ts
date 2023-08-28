@@ -5,26 +5,24 @@ import { statusCode } from '../utils/constants/statusCode';
 export const excludedFields = ['password'];
 
 export const getUsersHandler = async (
-  req: Request<{}, {}, {}>,
+  req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-      // Get list user
-      const users = await findAllUsers();
+    // Get list user
+    const users = await findAllUsers();
 
-      res.status(statusCode.OK).json({
-          status: 'success',
-          data: users,
-      });
+    res.status(statusCode.OK).json({
+      status: 'success',
+      data: users,
+    });
   } catch (err: any) {
     res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-        status: 'error',
-        code: statusCode.INTERNAL_SERVER_ERROR,
-        data: [],
-        message: err.message ||  'Internal Server Error',
+      status: 'error',
+      code: statusCode.INTERNAL_SERVER_ERROR,
+      data: [],
+      message: err.message || 'Internal Server Error',
     });
   }
 };
-
-

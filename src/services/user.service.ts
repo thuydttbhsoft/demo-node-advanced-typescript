@@ -1,4 +1,3 @@
-
 import { FilterQuery, QueryOptions } from 'mongoose';
 
 import userModel, { User } from '../models/user.model';
@@ -24,7 +23,7 @@ export const findAllUsers = async () => {
 // Find one user by any fields
 export const findUser = async (
   query: FilterQuery<User>,
-  options: QueryOptions = {}
+  options: QueryOptions = {},
 ) => {
   return await userModel.findOne(query, {}, options).select('+password');
 };
