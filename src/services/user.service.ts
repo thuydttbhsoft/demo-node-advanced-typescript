@@ -25,5 +25,5 @@ export const findUser = async (
   query: FilterQuery<User>,
   options: QueryOptions = {},
 ) => {
-  return await userModel.findOne(query, {}, options);
+  return await userModel.findOne(query, {}, options).select('+password');
 };

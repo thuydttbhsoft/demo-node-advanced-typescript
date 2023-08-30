@@ -8,16 +8,13 @@ import mongoose from 'mongoose';
 import userModel from '../../src/models/user.model';
 import { NextFunction, Request, Response } from 'express';
 jest.mock('../../src/models/user.model');
-jest.mock("../../src/middlewares/auth.middleware", () => ({
-  deserializeUser: (
-    req: Request,
-    res: Response,
-    next: NextFunction) => {
-      res.locals.user = {
-        id: 'fakeUserId'
-      }
-      next()
-    }
+jest.mock('../../src/middlewares/auth.middleware', () => ({
+  deserializeUser: (req: Request, res: Response, next: NextFunction) => {
+    res.locals.user = {
+      id: 'fakeUserId',
+    };
+    next();
+  },
 }));
 
 beforeAll((done) => {

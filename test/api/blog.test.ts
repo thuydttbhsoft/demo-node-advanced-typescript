@@ -8,16 +8,13 @@ import mongoose from 'mongoose';
 import mockedModel from '../../src/models/blog.model';
 import { NextFunction, Request, Response } from 'express';
 jest.mock('../../src/models/blog.model');
-jest.mock("../../src/middlewares/auth.middleware", () => ({
-  deserializeUser: (
-    req: Request,
-    res: Response,
-    next: NextFunction) => {
-      res.locals.user = {
-        id: 'fakeUserId'
-      }
-      next()
-    }
+jest.mock('../../src/middlewares/auth.middleware', () => ({
+  deserializeUser: (req: Request, res: Response, next: NextFunction) => {
+    res.locals.user = {
+      id: 'fakeUserId',
+    };
+    next();
+  },
 }));
 
 beforeAll((done) => {
@@ -79,7 +76,7 @@ describe('Blog API', () => {
       description: 'Mocked Description',
       userId: '',
     };
-    mockedModel.create = jest.fn().mockResolvedValue(mockBlogInstance)
+    mockedModel.create = jest.fn().mockResolvedValue(mockBlogInstance);
     const response = await request(app).post('/api/blogs').send({
       title: 'Mocked Blog',
       description: 'Mocked Description',
@@ -116,8 +113,10 @@ describe('Blog API', () => {
       userId: '',
       ...updatedBlog,
     };
-    mockedModel.findOneAndUpdate= jest.fn().mockResolvedValue(mockBlogInstance);
-    mockedModel.findById= jest.fn().mockResolvedValue(fakeBlogList[0]);
+    mockedModel.findOneAndUpdate = jest
+      .fn()
+      .mockResolvedValue(mockBlogInstance);
+    mockedModel.findById = jest.fn().mockResolvedValue(fakeBlogList[0]);
     const BlogId = fakeBlogList[1]._id; // Replace with an actual Blog ID
     const response = await request(app)
       .put(`/api/blogs/${BlogId}`)
@@ -149,7 +148,7 @@ describe('Blog API', () => {
   // Test for deleting a Blog
   it('should delete a Blog by ID', async () => {
     mockedModel.findById = jest.fn().mockResolvedValue(fakeBlogList[0]);
-    mockedModel.deleteOne = jest.fn().mockResolvedValue({ deletedCount: 0 })
+    mockedModel.deleteOne = jest.fn().mockResolvedValue({ deletedCount: 0 });
     const BlogId = fakeBlogList[1]._id; // Replace with an actual Blog ID
     const response = await request(app).delete(`/api/blogs/${BlogId}`);
 

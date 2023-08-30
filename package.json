@@ -2,9 +2,9 @@
   "name": "jwt_auth",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "index.ts",
   "scripts": {
-    "start": "nodemon --transpile-only src/app.ts",
+    "start": "nodemon --transpile-only src/index.ts",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
