@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Schema } from 'mongoose';
+import { statusCode } from '../utils/constants/statusCode';
 
 const Joi = require('joi');
 export const validate = (schema: any) => {
@@ -12,7 +13,7 @@ export const validate = (schema: any) => {
     } else {
       const { details } = error;
       const message = details.map((i: any) => i.message);
-      res.status(422).json({ error: message });
+      res.status(statusCode.BAD_REQUEST).json({ error: message });
     }
   };
 };

@@ -27,7 +27,7 @@ export const updateBlog = async (
 
 // Find Blog by Id
 export const findBlogById = async (id: string) => {
-  const blog = await blogModel.findById(id).lean();
+  const blog = await blogModel.findById(id);
   return blog;
 };
 

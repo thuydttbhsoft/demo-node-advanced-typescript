@@ -70,9 +70,10 @@ export const createBlogHandler = async (
       description: req.body.description,
       userId: user._id,
     });
+
     res.status(statusCode.CREATED).json({
       status: 'success',
-      data: [blog],
+      data: blog,
     });
   } catch (err: any) {
     res.status(statusCode.INTERNAL_SERVER_ERROR).json({
@@ -106,7 +107,7 @@ export const UpdateBlogHandler = async (
     });
     res.status(statusCode.OK).json({
       status: 'success',
-      data: [blog],
+      data: blog,
       message: 'Blog Updated',
     });
   } catch (err: any) {

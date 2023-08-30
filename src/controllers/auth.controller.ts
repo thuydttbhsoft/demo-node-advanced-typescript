@@ -27,7 +27,7 @@ export const registerHandler = async (
     });
     res.status(statusCode.OK).json({
       status: 'success',
-      data: [user],
+      data: user,
       message:
         'Thank you for registering with us. Your account has been successfully created.',
     });
