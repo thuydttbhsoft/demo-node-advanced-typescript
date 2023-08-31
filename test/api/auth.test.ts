@@ -44,6 +44,40 @@ describe('Login API', () => {
     });
   });
 
+  it('should login with email empty', async () => {
+    const selectMock = jest.fn().mockResolvedValue(null);
+    // Mock findUser function to return null (user not found)
+    userModel.findOne = jest.fn().mockReturnValue({ select: selectMock });
+
+    const req = {
+      body: {
+        email: '',
+        password: 'password',
+      },
+    };
+    const res = await request(app).post('/api/auth/login').send(req.body);
+
+    expect(res.status).toBe(statusCode.BAD_REQUEST);
+    expect(res.body).toHaveProperty('errors');
+  });
+
+  it('should login with validate email', async () => {
+    const selectMock = jest.fn().mockResolvedValue(null);
+    // Mock findUser function to return null (user not found)
+    userModel.findOne = jest.fn().mockReturnValue({ select: selectMock });
+
+    const req = {
+      body: {
+        email: 'test-type-email',
+        password: 'password',
+      },
+    };
+    const res = await request(app).post('/api/auth/login').send(req.body);
+
+    expect(res.status).toBe(statusCode.BAD_REQUEST);
+    expect(res.body).toHaveProperty('errors');
+  });
+
   it('should respond with 401 for invalid credentials', async () => {
     const mockUser = jest.fn().mockResolvedValue(null);
     // Mock findUser function to return null (user not found)
@@ -98,6 +132,23 @@ describe('Signup API', () => {
     });
   });
 
+  it('should create a new user with password null', async () => {
+    const selectMock = jest.fn().mockResolvedValue(null);
+    // Mock findUser function to return null (user not found)
+    userModel.findOne = jest.fn().mockReturnValue({ select: selectMock });
+
+    const req = {
+      body: {
+        email: 'test@example.com',
+        password: '',
+      },
+    };
+    const res = await request(app).post('/api/auth/login').send(req.body);
+
+    expect(res.status).toBe(statusCode.BAD_REQUEST);
+    expect(res.body).toHaveProperty('errors');
+  });
+
   it('should create a new user with validate email', async () => {
     const selectMock = jest.fn().mockResolvedValue(null);
     // Mock findUser function to return null (user not found)
@@ -105,7 +156,7 @@ describe('Signup API', () => {
 
     const req = {
       body: {
-        email: '',
+        email: 'test-type-email',
         name: 'Test User',
         password: 'password',
       },
@@ -113,7 +164,7 @@ describe('Signup API', () => {
     const res = await request(app).post('/api/auth/register').send(req.body);
 
     expect(res.status).toBe(statusCode.BAD_REQUEST);
-    expect(res.body).toHaveProperty('error');
+    expect(res.body).toHaveProperty('errors');
   });
 
   it('should respond with 400 for existing user registration', async () => {
@@ -163,23 +214,6 @@ describe('Authenticated Request', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-  });
-
-  it('should login with validate email', async () => {
-    const selectMock = jest.fn().mockResolvedValue(null);
-    // Mock findUser function to return null (user not found)
-    userModel.findOne = jest.fn().mockReturnValue({ select: selectMock });
-
-    const req = {
-      body: {
-        email: '',
-        password: 'password',
-      },
-    };
-    const res = await request(app).post('/api/auth/login').send(req.body);
-
-    expect(res.status).toBe(statusCode.BAD_REQUEST);
-    expect(res.body).toHaveProperty('error');
   });
 
   it('should return 401 for unauthorized request', async () => {

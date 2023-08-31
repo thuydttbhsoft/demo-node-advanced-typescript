@@ -7,8 +7,8 @@ import {
   UpdateBlogHandler,
   deleteBlogHandler,
 } from '../controllers/blog.controller';
-import { validate } from '../middlewares/joi.middleware';
-import BlogValidate from '../utils/validators/blog';
+import { validateRequest } from '../middlewares/validator.middleware';
+import { BlogDto } from '../utils/dto/blog.dto';
 
 const router = express.Router();
 router.use(deserializeUser);
@@ -16,9 +16,9 @@ router.use(deserializeUser);
 router.get('/', getBlogsHandler);
 router.get('/my-blog', getMyBlogHandler);
 // create a new blog
-router.post('/', validate(BlogValidate), createBlogHandler);
+router.post('/', validateRequest(BlogDto), createBlogHandler);
 // update blog
-router.put('/:blogId', validate(BlogValidate), UpdateBlogHandler);
+router.put('/:blogId', validateRequest(BlogDto), UpdateBlogHandler);
 //delete blog
 router.delete('/:blogId', deleteBlogHandler);
 export default router;

@@ -99,7 +99,7 @@ describe('Blog API', () => {
 
     // Assertions
     expect(response.status).toBe(statusCode.BAD_REQUEST);
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('errors');
   });
 
   // Test for updating a Blog
