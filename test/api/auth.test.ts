@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../src/app';
 
 import userModel from '../../src/models/user.model';
+import { statusCode } from '../../src/utils/constants/statusCode';
 jest.mock('../../src/models/user.model'); // Mock the user module
 jest.mock('../../src/utils/helpers/jwt.helper', () => ({
   generateToken: () => {
@@ -97,6 +98,24 @@ describe('Signup API', () => {
     });
   });
 
+  it('should create a new user with validate email', async () => {
+    const selectMock = jest.fn().mockResolvedValue(null);
+    // Mock findUser function to return null (user not found)
+    userModel.findOne = jest.fn().mockReturnValue({ select: selectMock });
+
+    const req = {
+      body: {
+        email: '',
+        name: 'Test User',
+        password: 'password',
+      },
+    };
+    const res = await request(app).post('/api/auth/register').send(req.body);
+
+    expect(res.status).toBe(statusCode.BAD_REQUEST);
+    expect(res.body).toHaveProperty('error');
+  });
+
   it('should respond with 400 for existing user registration', async () => {
     // Mock findUser to return a user (user already exists)
     userModel.findOne = jest
@@ -145,6 +164,24 @@ describe('Authenticated Request', () => {
 
     expect(response.status).toBe(200);
   });
+
+  it('should login with validate email', async () => {
+    const selectMock = jest.fn().mockResolvedValue(null);
+    // Mock findUser function to return null (user not found)
+    userModel.findOne = jest.fn().mockReturnValue({ select: selectMock });
+
+    const req = {
+      body: {
+        email: '',
+        password: 'password',
+      },
+    };
+    const res = await request(app).post('/api/auth/login').send(req.body);
+
+    expect(res.status).toBe(statusCode.BAD_REQUEST);
+    expect(res.body).toHaveProperty('error');
+  });
+
   it('should return 401 for unauthorized request', async () => {
     userModel.findById = jest.fn().mockResolvedValue(null);
     const invalidToken = 'invalidToken'; // Replace with an invalid token
